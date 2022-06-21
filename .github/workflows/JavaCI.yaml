@@ -1,24 +1,24 @@
-name: Feature Branch
+name: Github Actions Example
 
 on:
+  pull_request:
   push:
-    branches-ignore:
-      - 'master'
-      - 'release*'
+    branches: 
+      - master
+      - develop
 
 jobs:
-
   test:
-    name: Unit Test
-    runs-on: ubuntu-18.04
+    name: Running Units Tests
+    runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v1
-      - name: Set up JDK 11
-        uses: actions/setup-java@v1
-        with:
-          java-version: 1.11
-      - name: Maven Package
-        run: mvn -B clean package -DskipTests
-      - name: Maven Verify
-        run: mvn -B clean verify
+    - uses: actions/checkout@v1
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Install
+      run: npm install
+    - name: Test
+      run: npm test
